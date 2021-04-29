@@ -30,6 +30,17 @@ For deployment to CURA directory:
  - profile-gen\prusa_mk3s.profile-gen.json - profile-gen template for Prusa MK3S (with 0.20, 0.25, 0.40, and 0.60 and Mosquito variant nozzles)
  - profile-gen\e3dtoolchanger.profile-gen.json - profile-gen template for E3D ToolChanging printer (with 0.20, 0.25, 0.40 and 0.60 nozzle variants)
 
+When adding the printers, the printers in Cura will show under
+Prusa Research 
+E3D manufacturers
+
+* Note for ToolChanger *
+Toolchanger requires adding a postprocessing -> Modify G-Code action
+with the followig regex expresion - this is to remove the first line of G-code which is tool activation which Cura inserts
+
+		;Generated with Cura_SteamEngine 4\..\.0
+		T.
+
 ## profile-gen.json format
 
 The template format wrapps the standard cura def.json formats and extends it:
