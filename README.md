@@ -38,7 +38,7 @@ E3D manufacturers
 Toolchanger requires adding a postprocessing -> Modify G-Code action
 with the followig regex expresion - this is to remove the first line of G-code which is tool activation which Cura inserts
 
-!(https://github.com/mkudzia84/cura-profile-gen/blob/master/docs/postprocess.png?raw=true)
+![enter image description here](https://github.com/mkudzia84/cura-profile-gen/blob/master/docs/postprocess.png?raw=true)
 
 		;Generated with Cura_SteamEngine 4\..\.0
 		T.
