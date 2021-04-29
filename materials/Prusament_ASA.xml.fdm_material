@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='utf-8'?>
+<fdmmaterial version="1.3" xmlns="http://www.ultimaker.com/material" xmlns:cura="http://www.ultimaker.com/cura">
+  <metadata>
+    <name>
+      <brand>Prusa Research</brand>
+      <material>ASA</material>
+      <color>Generic</color>
+      <label>Prusament ASA</label>
+    </name>
+    <version>8</version>
+    <color_code>#393939</color_code>
+    <description>Prusament ASA</description>
+    <GUID>9f8c83e9-658b-4c00-8433-ca40854fef42</GUID>
+    <adhesion_info>Print on bare glass. Use tape for cold build plates.</adhesion_info>
+  </metadata>
+  <properties>
+    <density>1.07</density>
+    <diameter>1.75</diameter>
+  </properties>
+  <settings>
+    <setting key="print temperature">260</setting>
+    <setting key="surface energy">100</setting>
+    <setting key="adhesion tendency">0</setting>
+    <setting key="retraction amount">1.2</setting>
+    <setting key="build volume temperature">28</setting>
+    <setting key="standby temperature">210</setting>
+    <setting key="print cooling">20</setting>
+    <setting key="heated bed temperature">110</setting>
+  </settings>
+</fdmmaterial>
