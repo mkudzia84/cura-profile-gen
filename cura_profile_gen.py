@@ -170,12 +170,14 @@ class Printer:
         # Verify the overrides
         if material.overrides != None:
             for override in material.overrides:
-                for profile_id in override.profile_ids:
-                    if profile_id not in self.profiles:
-                        raise Exception(f"Profile '{profile_id}' reference in one of the overrides of Material '{material.id}' is invalid")
-                for variant_id in override.variant_ids:
-                    if variant_id not in self.variants:
-                        raise Exception(f"Variant '{variant_id}' reference in one of the overrides of Material '{material.id}' is invalid")
+                if override.profile_ids != None:
+                    for profile_id in override.profile_ids:
+                        if profile_id not in self.profiles:
+                            raise Exception(f"Profile '{profile_id}' reference in one of the overrides of Material '{material.id}' is invalid")
+                if override.variant_ids != None:
+                    for variant_id in override.variant_ids:
+                        if variant_id not in self.variants:
+                            raise Exception(f"Variant '{variant_id}' reference in one of the overrides of Material '{material.id}' is invalid")
 
         self.materials[material.id] = material
 

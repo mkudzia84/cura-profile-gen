@@ -48,9 +48,9 @@
 			
 			"retraction_enable":						{ "default_value": true },
 			"retraction_amount": 						{ "default_value": 1.2 },
-			"retraction_speed": 						{ "default_value": 35 },
-			"retraction_retract_speed": 				{ "default_value": 35 },
-			"retraction_prime_speed": 					{ "default_value": 35 },
+			"retraction_speed": 						{ "default_value": 60 },
+			"retraction_retract_speed": 				{ "default_value": 60 },
+			"retraction_prime_speed": 					{ "default_value": 60 },
 			"retraction_hop_enabled": 					{ "default_value": true },
 			"retraction_hop": 							{ "default_value" : 0.6 },
 			"retraction_count_max": 					{ "default_value": 30 },
@@ -62,7 +62,7 @@
 			
 			"adhesion_type": 							{ "default_value": "raft" },
 			"raft_airgap" : 							{ "default_value": 0.10 },
-			"raft_base_speed" : 						{ "default_value" : 20 },
+			"raft_base_speed" : 						{ "value" : "math.ceil(speed_print * 0.50)" },
 
 			"speed_travel" :							{ "maximum_value": 500, "value": 400, "maximum_value_warning": 501 },
 			"speed_travel_layer_0" :					{ "value": "math.ceil(speed_travel * 0.4)" },
@@ -135,7 +135,7 @@
 				"extruder_nr" : 		{ "default_value": 1 },
 				"material_diameter" : 	{ "default_value": 1.75 },
 				"machine_extruder_end_code" : { "default_value" : "T-1" },
-				"machine_extruder_start_code" : { "default_value" : "G10 P1 S{material_print_temperature} ; Set tool 1 active temperature\nM116 ; Wait for temperatures\nT0" }
+				"machine_extruder_start_code" : { "default_value" : "G10 P1 S{material_print_temperature} ; Set tool 1 active temperature\nM116 ; Wait for temperatures\nT1" }
 			}
 		},
 		{
@@ -151,7 +151,7 @@
 				"extruder_nr" : 		{ "default_value": 2 },
 				"material_diameter" : 	{ "default_value": 1.75 },
 				"machine_extruder_end_code" : { "default_value" : "T-1" },
-				"machine_extruder_start_code" : { "default_value" : "G10 P2 S{material_print_temperature} ; Set tool 1 active temperature\nM116 ; Wait for temperatures\nT0" }
+				"machine_extruder_start_code" : { "default_value" : "G10 P2 S{material_print_temperature} ; Set tool 1 active temperature\nM116 ; Wait for temperatures\nT2" }
 			}
 		},
 		{
@@ -167,7 +167,7 @@
 				"extruder_nr" : 		{ "default_value": 3 },
 				"material_diameter" : 	{ "default_value": 1.75 },
 				"machine_extruder_end_code" : { "default_value" : "T-1" },
-				"machine_extruder_start_code" : { "default_value" : "G10 P3 S{material_print_temperature} ; Set tool 1 active temperature\nM116 ; Wait for temperatures\nT0" }
+				"machine_extruder_start_code" : { "default_value" : "G10 P3 S{material_print_temperature} ; Set tool 1 active temperature\nM116 ; Wait for temperatures\nT3" }
 			}
 		}
 	],
@@ -191,7 +191,10 @@
 			"id" : "0.40mm",
 			"overrides" : {
 				"machine_nozzle_size" : 0.40,
-				"speed_print" : 60
+				"speed_print" : 60,
+				"raft_surface_line_width" : 0.35,
+				"raft_surface_line_spacing" : 0.35,
+				"raft_interface_line_width" : 0.70
 			}
 		},
 		{
@@ -206,7 +209,7 @@
 			"inherits" : "0.20mm",
 			"overrides" : {
 				"retraction_amount" : 2.0,
-				"retraction_speed" : 35
+				"retraction_speed" : 45
 			}
 		},
 		{
@@ -214,7 +217,7 @@
 			"inherits" : "0.40mm",
 			"overrides" : {
 				"retraction_amount" : 2.0,
-				"retraction_speed" : 35
+				"retraction_speed" : 45
 			}
 		}
 	],
@@ -291,7 +294,7 @@
 			"overrides" : {
 				"layer_height" : 0.07,
 				"layer_height0" : 0.10,
-				"raft_airgap" : 0.05
+				"raft_airgap" : 0.10
 			},
 			"compatibleVariants" : [
 				{
@@ -351,7 +354,16 @@
 		},
 		{
 			"id" : "generic_greentec",
-			"name" : "GREENTEC"
+			"name" : "GREENTEC",
+			"overrides" : [
+				{
+					"variants" : ["0.20mm", "0.40mm"],
+					"settings" : {
+						"raft_airgap" : 0.15,
+						"retraction_amount" : 2.4
+					}
+				}
+			]
 		},
 		{
 			"id" : "generic_nylon",
