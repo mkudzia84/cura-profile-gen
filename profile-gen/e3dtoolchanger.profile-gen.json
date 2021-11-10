@@ -77,6 +77,7 @@
 			
 			"optimize_wall_printing_order" :      		{ "default_value": true },
 			"infill_enable_travel_optimization":       	{ "default_value": true },
+			"infill_before_walls" : 					{ "default_value": false },
 			
 			"z_seam_type" : 							{ "default_value": "'back'" },
 			"z_seam_corner" : 							{ "default_value": "'z_seam_corner_none'" },
@@ -184,14 +185,14 @@
 			"id" : "0.25mm",
 			"overrides" : {
 				"machine_nozzle_size" : 0.25,
-				"speed_print" : 40
+				"speed_print" : 60
 			}
 		},
 		{
 			"id" : "0.40mm",
 			"overrides" : {
 				"machine_nozzle_size" : 0.40,
-				"speed_print" : 60,
+				"speed_print" : 200,
 				"raft_surface_line_width" : 0.35,
 				"raft_surface_line_spacing" : 0.35,
 				"raft_interface_line_width" : 0.70
@@ -201,7 +202,7 @@
 			"id" : "0.60mm",
 			"overrides" : { 
 				"machine_nozzle_size" : 0.60,
-				"speed_print" : 75
+				"speed_print" : 120
 			}
 		},
 		{
@@ -357,9 +358,16 @@
 			"name" : "GREENTEC",
 			"overrides" : [
 				{
-					"variants" : ["0.20mm", "0.40mm"],
+					"variants" : ["0.40mm"],
 					"settings" : {
 						"raft_airgap" : 0.15,
+						"retraction_amount" : 2.4
+					}
+				},
+				{
+					"variants" : ["0.20mm"],
+					"settings" : {
+						"raft_airgap" : 0.05,
 						"retraction_amount" : 2.4
 					}
 				}

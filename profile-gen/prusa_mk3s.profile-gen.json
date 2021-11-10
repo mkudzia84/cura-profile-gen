@@ -57,6 +57,8 @@
 			"retraction_count_max": 					{ "default_value": 30 },
 			"retraction_combing":                       { "default_value": false },
 			
+			"infill_before_walls" : 					{ "default_value": false },
+
 			"travel_avoid_other_parts" : 				{ "value": true },
 			"travel_avoid_supports" : 					{ "value": true },
 			"travel_retract_before_outer_wall" : 		{ "value": true },

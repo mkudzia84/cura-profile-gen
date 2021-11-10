@@ -251,7 +251,7 @@ class Printer:
                     'definition' : self.id
                 },
                 metadata = {
-                    'setting_version' : 16,
+                    'setting_version' : 17,
                     'type' : 'variant',
                     'hardware_type' : 'nozzle'
                 },
@@ -272,7 +272,7 @@ class Printer:
                     'definition' : self.id
                 },
                 metadata = {
-                    'setting_version' : 16,
+                    'setting_version' : 17,
                     'type' : 'quality',
                     'quality_type' : profile.id,
                     'global_quality' : True
@@ -325,7 +325,7 @@ class Printer:
                             'definition' : self.id
                         },
                         metadata = {
-                            'setting_version' : 16,
+                            'setting_version' : 17,
                             'type' : 'quality',
                             'quality_type' : profile.id,
                             'material' : material.id,
