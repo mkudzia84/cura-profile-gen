@@ -283,10 +283,11 @@
 			"overrides" : [
 				{
 					"profiles" : ["extrafine", "fine", "normal", "fast"],
-					"variants" : ["Dragon - 0.40mm"],
+					"variants" : ["Dragon - 0.20mm"],
 					"settings" : {
 						"cool_fan_speed" : 70,
-						"material_flow" : 90
+						"material_flow" : 95,
+						"roofing_material_flow" : 90
 					}
 				},
 				{
@@ -294,7 +295,7 @@
 					"variants" : ["Dragon - 0.40mm"],
 					"settings" : {
 						"cool_fan_speed" : 70,
-						"material_flow" : 90,
+						"material_flow" : 95,
 						"roofing_material_flow" : 80
 					}
 				}

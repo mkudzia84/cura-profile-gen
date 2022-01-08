@@ -192,7 +192,7 @@
 			"id" : "0.40mm",
 			"overrides" : {
 				"machine_nozzle_size" : 0.40,
-				"speed_print" : 200,
+				"speed_print" : 240,
 				"raft_surface_line_width" : 0.35,
 				"raft_surface_line_spacing" : 0.35,
 				"raft_interface_line_width" : 0.70
@@ -209,7 +209,7 @@
 			"id" : "Dragon - 0.20mm",
 			"inherits" : "0.20mm",
 			"overrides" : {
-				"retraction_amount" : 2.0,
+				"retraction_amount" : 0.4,
 				"retraction_speed" : 45
 			}
 		},
@@ -217,7 +217,7 @@
 			"id" : "Dragon - 0.40mm",
 			"inherits" : "0.40mm",
 			"overrides" : {
-				"retraction_amount" : 2.0,
+				"retraction_amount" : 0.8,
 				"retraction_speed" : 45
 			}
 		}
@@ -336,7 +336,17 @@
 			"name" : "ASA",
 			"profileFilter" : [],
 			"variantFilter" : [],
-			"overrides" : []
+			"overrides" : [
+				{
+					"profiles" : ["extrafine", "fine", "normal", "fast"],
+					"variants" : ["Dragon - 0.40mm"],
+					"settings" : {
+						"cool_fan_speed" : 70,
+						"material_flow" : 90,
+						"roofing_material_flow" : 80
+					}
+				}
+			]
 		},
 		{
 			"id" : "generic_tpu",
