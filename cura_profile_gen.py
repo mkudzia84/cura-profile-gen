@@ -251,7 +251,7 @@ class Printer:
                     'definition' : self.id
                 },
                 metadata = {
-                    'setting_version' : 17,
+                    'setting_version' : 19,
                     'type' : 'variant',
                     'hardware_type' : 'nozzle'
                 },

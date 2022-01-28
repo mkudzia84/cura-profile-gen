@@ -1,7 +1,7 @@
 {
 	"printer" : {
-		"id" : "voron_v0_1",
-		"name": "Voron V0.1",
+		"id" : "voron_v2_4_350",
+		"name": "Voron V2.4 - 350",
 		"inherits": "fdmprinter",
 		"metadata": {
 			"visible": true,
@@ -15,19 +15,19 @@
 			"preferred_variant_name" : "Dragon - 0.40mm",
 			"preferred_material" : "generic_abs",
 			
-			"quality_definition" : "voron_v0_1",
+			"quality_definition" : "voron_v2_4_350",
 			"machine_extruder_trains":
 			{
-				"0": "voron_v0_1_extruder_0"
+				"0": "voron_v2_4_350_extruder_0"
 			}
 		},
 
 		"overrides": {
-			"machine_name": 							{ "default_value": "Voron V0.1" },
+			"machine_name": 							{ "default_value": "Voron V2.4 350" },
 			"machine_heated_bed": 						{ "default_value": true },
-			"machine_width": 							{ "default_value": 120 },
-			"machine_height": 							{ "default_value": 120 },
-			"machine_depth": 							{ "default_value": 120 },
+			"machine_width": 							{ "default_value": 350 },
+			"machine_height": 							{ "default_value": 350 },
+			"machine_depth": 							{ "default_value": 350 },
 			"machine_center_is_zero": 					{ "default_value": false },
 			
 			"machine_max_feedrate_z": 					{ "default_value": 40 },
@@ -43,16 +43,14 @@
 			"machine_endstop_positive_direction_x":         { "default_value": true },
 			"machine_endstop_positive_direction_y":         { "default_value": true },
 			"machine_endstop_positive_direction_z":         { "default_value": false },
-
-			
-			
+	
 			"material_diameter": 						{ "default_value": 1.75 },
 			"material_bed_temperature": 				{ "default_value": 60 },
 			
 			"layer_height": 							{ "value": "machine_nozzle_size * 0.50" },
 			
 			"retraction_enable":						{ "default_value": true },
-			"retraction_speed":                        	{ "default_value": 80, "maximum_value_warning": 130 },
+			"retraction_speed":                        	{ "default_value": 50, "maximum_value_warning": 130 },
 			"retraction_retract_speed":               	{ "maximum_value_warning": 130 },
 			"retraction_prime_speed":                  	{ "value": "math.ceil(retraction_speed * 0.4)", "maximum_value_warning": 130 },
 			"retraction_hop_enabled":                  	{ "default_value": true },
@@ -143,11 +141,11 @@
 
 	"extruders" : [
 		{
-			"id": "voron_v0_1_extruder_0",
+			"id": "voron_v2_4_350_extruder_0",
 			"name": "Extruder 1",
 			"inherits": "fdmextruder",
 			"metadata": {
-				"machine": "voron_v0_1",
+				"machine": "voron_v2_4_350",
 				"position": "0"
 			},
 		
@@ -160,18 +158,10 @@
 
 	"variants" : [
 		{
-			"id" : "Dragon - 0.15mm",
+			"id" : "Dragon - 0.25mm",
 			"overrides" : {
-				"machine_nozzle_size" : 0.15,
-				"retraction_amount" : 0.30,
-				"speed_print" : 240
-			}
-		},
-		{
-			"id" : "Dragon - 0.20mm",
-			"overrides" : {
-				"machine_nozzle_size" : 0.20,
-				"retraction_amount" : 0.40,
+				"machine_nozzle_size" : 0.25,
+				"retraction_amount" : 0.50,
 				"speed_print" : 240
 			}
 		},
@@ -193,10 +183,14 @@
 				"layer_height_0" : 0.20
 			},
 			"compatibleVariants" : [
+                {
+                    "variant" : "Dragon - 0.25mm",
+                    "overrides" : {}
+                },
 				{
 					"variant" : "Dragon - 0.40mm",
 					"overrides" : {}
-				}
+                }
 			]
 		},
 		{
@@ -208,7 +202,7 @@
 			},
 			"compatibleVariants" : [
 				{
-					"variant" : "Dragon - 0.20mm",
+					"variant" : "Dragon - 0.25mm",
 					"overrides" : {}
 				},
 				{
@@ -226,11 +220,7 @@
 			},
 			"compatibleVariants" : [
 				{
-					"variant" : "Dragon - 0.15mm",
-					"overrides" : {}
-				},
-				{
-					"variant" : "Dragon - 0.20mm",
+					"variant" : "Dragon - 0.25mm",
 					"overrides" : {}
 				},
 				{
@@ -249,36 +239,7 @@
 			},
 			"compatibleVariants" : [
 				{
-					"variant" : "Dragon - 0.15mm",
-					"overrides" : {}
-				},
-				{
-					"variant" : "Dragon - 0.20mm",
-					"overrides" : {}
-				},
-				{
-					"variant" : "Dragon - 0.40mm",
-					"overrides" : {
-						"layer_height_0" : 0.15
-					}
-				}
-			]
-		},
-		{
-			"id" : "superfine",
-			"name" : "Super Fine",
-			"overrides" : {
-				"layer_height" : 0.05,
-				"layer_height_0" : 0.15,
-				"raft_airgap" : 0.07
-			},
-			"compatibleVariants" : [
-				{
-					"variant" : "Dragon - 0.15mm",
-					"overrides" : {}
-				},
-				{
-					"variant" : "Dragon - 0.20mm",
+					"variant" : "Dragon - 0.25mm",
 					"overrides" : {}
 				},
 				{
@@ -299,16 +260,8 @@
 			"id" : "generic_petg",
 			"name" : "PETG",
 			"profileFilter" : ["fine", "normal", "fast"],
-			"variantFilter" : ["Dragon - 0.20mm", "Dragon - 0.40mm"],
-			"overrides" : [
-				{
-					"profiles" : ["fine", "normal", "fast"],
-					"variants" : ["Dragon - 0.20mm", "Dragon - 0.40mm"],
-					"settings" : {
-						"speed_print" : 160
-					}
-				}
-			]
+			"variantFilter" : ["Dragon - 0.25mm", "Dragon - 0.40mm"],
+			"overrides" : []
 		},
 		{
 			"id" : "generic_abs",
@@ -322,33 +275,23 @@
 			"variantFilter" : [],
 			"overrides" : [
 				{
-					"profiles" : ["superfine", "extrafine", "fine"],
-					"variants" : ["Dragon - 0.15mm"],
+					"profiles" : ["extrafine", "fine", "normal", "fast"],
+					"variants" : ["Dragon - 0.25mm"],
 					"settings" : {
-						"cool_fan_speed" : 70,
-						"skin_material_flow" : 95,
-						"material_flow" : 97.5,
-						"roofing_material_flow" : 95
-					}
-				}, 
-				{
-					"profiles" : ["superfine", "extrafine", "fine", "normal", "fast"],
-					"variants" : ["Dragon - 0.20mm"],
-					"settings" : {
-						"cool_fan_speed" : 70,
+						"cool_fan_speed" : 10,
 						"material_flow" : 97.5,
 						"skin_material_flow" : 95,
-						"roofing_material_flow" : 95
+						"roofing_material_flow" : 90
 					}
 				},
 				{
-					"profiles" : ["superfine", "extrafine", "fine", "normal", "fast"],
+					"profiles" : ["extrafine", "fine", "normal", "fast"],
 					"variants" : ["Dragon - 0.40mm"],
 					"settings" : {
-						"cool_fan_speed" : 70,
+						"cool_fan_speed" : 10,
 						"material_flow" : 97.5,
 						"skin_material_flow" : 95,
-						"roofing_material_flow" : 95
+						"roofing_material_flow" : 90
 					}
 				}
 			]
@@ -372,7 +315,7 @@
 			"id" : "generic_greentec",
 			"name" : "GREENTEC",
 			"profileFilter" : ["fine", "normal", "fast"],
-			"variantFilter" : ["Dragon - 0.20mm", "Dragon - 0.40mm"]
+			"variantFilter" : ["Dragon - 0.25mm", "Dragon - 0.40mm"]
 		},
 		{
 			"id" : "generic_nylon",
