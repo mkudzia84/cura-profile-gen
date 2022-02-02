@@ -44,21 +44,20 @@
 			"machine_endstop_positive_direction_y":         { "default_value": true },
 			"machine_endstop_positive_direction_z":         { "default_value": false },
 
-			
-			
 			"material_diameter": 						{ "default_value": 1.75 },
 			"material_bed_temperature": 				{ "default_value": 60 },
 			
 			"layer_height": 							{ "value": "machine_nozzle_size * 0.50" },
 			
 			"retraction_enable":						{ "default_value": true },
-			"retraction_speed":                        	{ "default_value": 80, "maximum_value_warning": 130 },
+			"retraction_speed":                        	{ "default_value": 50, "maximum_value_warning": 130 },
+			"retraction_amount":                        { "value": "math.ceil(machine_nozzle_size * 2.0)"},
 			"retraction_retract_speed":               	{ "maximum_value_warning": 130 },
 			"retraction_prime_speed":                  	{ "value": "math.ceil(retraction_speed * 0.4)", "maximum_value_warning": 130 },
 			"retraction_hop_enabled":                  	{ "default_value": true },
 			"retraction_hop":                          	{ "default_value": 0.2 },
-			"retraction_combing":                       { "default_value": "noskin" },
-			"retraction_combing_max_distance":          { "default_value": 10 },
+			"retraction_combing":                      	{ "value": "'noskin'" },
+        	"retraction_combing_max_distance":         	{ "default_value": 10 },
 
 			"infill_before_walls" : 					{ "default_value": false },
 
@@ -67,18 +66,18 @@
 			"travel_retract_before_outer_wall" : 		{ "value": true },
 			
 			"adhesion_type": 							{ "default_value": "raft" },
-			"raft_airgap" : 							{ "default_value": 0.1 },
-			"raft_base_speed" : 						{ "default_value" : 20 },
+			"raft_airgap" : 							{ "value": "layer_height" },
+			"raft_speed" : 						        { "value" : "math.ceil(speed_print * 0.25)" },
 			
 			"speed_travel":                           	{ "maximum_value": 400, "value": 300, "maximum_value_warning": 501 },
 			"speed_travel_layer_0":                   	{ "value": "math.ceil(speed_travel * 0.4)" },
 			"speed_layer_0":                           	{ "value": "math.ceil(speed_print * 0.25)" },
 			"speed_wall":                              	{ "value": "math.ceil(speed_print * 0.50)" },
-			"speed_wall_0":                            	{ "value": "math.ceil(speed_print * 0.33)" },
+			"speed_wall_0":                            	{ "value": "math.ceil(speed_print * 0.40)" },
 			"speed_wall_x":                            	{ "value": "math.ceil(speed_print * 0.70)" },
 			"speed_topbottom":                         	{ "value": "math.ceil(speed_print * 0.33)" },
 			"speed_roofing":                           	{ "value": "math.ceil(speed_print * 0.33)" },
-			"speed_infill" :            	           	{ "value": "math.ceil(speed_print * 1.25)" },
+			"speed_infill" :            	           	{ "value": "math.ceil(speed_print * 1.00)" },
 			"speed_slowdown_layers":                   	{ "default_value": 4 },
 
 			"roofing_layer_count":                     	{ "value": 1 },
@@ -91,19 +90,22 @@
 			"wall_overhang_angle":                     	{ "default_value": 75 },
 			"wall_overhang_speed_factor":              	{ "default_value": 50 },
 			
+			"z_seam_type":								{ "default_value" : "back" },
+
 			"bridge_settings_enabled":                 	{ "default_value": true },
 			"bridge_wall_coast":                       	{ "default_value": 10 },
 			"bridge_fan_speed":                        	{ "default_value": 100 },
 			"bridge_fan_speed_2":                      	{ "resolve": "max(cool_fan_speed, 50)" },
 			"bridge_fan_speed_3":                      	{ "resolve": "max(cool_fan_speed, 20)" },
 			
-			"alternate_extra_perimeter":               	{ "default_value": true },
+			"alternate_extra_perimeter":               	{ "default_value": false },
 			
 			"cool_min_layer_time_fan_speed_max":       	{ "default_value": 20 },
 			"cool_min_layer_time":                      { "default_value": 15 },
 			"cool_fan_speed_min":                       { "value": "cool_fan_speed" },
 			"cool_fan_full_at_height":                  { "value": "resolveOrValue('layer_height_0') + resolveOrValue('layer_height') * max(1, cool_fan_full_layer - 1)" },
 			"cool_fan_full_layer":                      { "value": 4 },
+			"cool_lift_head":                           { "value": true },
 			
 			"line_width":                               { "value": "machine_nozzle_size * 1.125" },
 			"wall_line_width":                          { "value": "machine_nozzle_size" },
@@ -121,10 +123,14 @@
 			"acceleration_travel_layer_0":              { "value": 1800 },
 			"acceleration_roofing":                     { "value": 1800 },
 			
+			"support_angle" :                           { "value": 40 },
 			"support_interface_enable" : 				{ "value": true },
-			"support_interface_height" : 				{ "value": "layer_height * 4" },
-			"support_interface_density" : 				{ "value": 33.333 },
-			"support_interface_pattern" : 				{ "value": "'grid'" },
+			"support_interface_height" : 				{ "value": "layer_height * 3.0" },
+			"support_interface_density" : 				{ "value": 33.3 },
+			"support_interface_pattern" : 				{ "value": "'zigzag'" },
+			"support_z_distance" :                      { "value": "layer_height" },
+			"support_xy_distance" :                     { "value": "1.5 * machine_nozzle_size"},
+			"support_bottom_stair_step_height" :        { "value": "layer_height"},
 			
 			"wall_thickness" : 							{ "value": "line_width * 2" },
 			
@@ -163,24 +169,24 @@
 			"id" : "Dragon - 0.15mm",
 			"overrides" : {
 				"machine_nozzle_size" : 0.15,
-				"retraction_amount" : 0.30,
-				"speed_print" : 240
+				"retraction_amount": 0.30,
+				"speed_print" : 160
 			}
 		},
 		{
 			"id" : "Dragon - 0.20mm",
 			"overrides" : {
 				"machine_nozzle_size" : 0.20,
-				"retraction_amount" : 0.40,
-				"speed_print" : 240
+				"retraction_amount": 0.40,
+				"speed_print" : 160
 			}
 		},
 		{
 			"id" : "Dragon - 0.40mm",
 			"overrides" : {
 				"machine_nozzle_size" : 0.40,
-				"retraction_amount" : 0.80,
-				"speed_print" : 240
+				"retraction_amount": 0.80,
+				"speed_print" : 200
 			}
 		}
 	],
@@ -190,7 +196,8 @@
 			"name" : "Fast",
 			"overrides" : {
 				"layer_height" : 0.20,
-				"layer_height_0" : 0.20
+				"layer_height_0" : 0.20,
+				"raft_base_thickness" : 0.20
 			},
 			"compatibleVariants" : [
 				{
@@ -204,7 +211,8 @@
 			"name" : "Normal",
 			"overrides" : { 
 				"layer_height" : 0.15,
-				"layer_height_0" : 0.20
+				"layer_height_0" : 0.20,
+				"raft_base_thickness" : 0.20
 			},
 			"compatibleVariants" : [
 				{
@@ -222,7 +230,8 @@
 			"name" : "Fine",
 			"overrides" : {
 				"layer_height" : 0.10,
-				"layer_height_0" : 0.15
+				"layer_height_0" : 0.15,
+				"raft_base_thickness" : 0.15
 			},
 			"compatibleVariants" : [
 				{
@@ -244,8 +253,9 @@
 			"name" : "Extra Fine",
 			"overrides" : {
 				"layer_height" : 0.07,
-				"layer_height_0" : 0.15,
-				"raft_airgap" : 0.07
+				"layer_height_0" : 0.14,
+				"raft_base_thickness" : 0.14,
+				"raft_airgap" : 0.14
 			},
 			"compatibleVariants" : [
 				{
@@ -258,9 +268,7 @@
 				},
 				{
 					"variant" : "Dragon - 0.40mm",
-					"overrides" : {
-						"layer_height_0" : 0.15
-					}
+					"overrides" : {}
 				}
 			]
 		},
@@ -269,8 +277,9 @@
 			"name" : "Super Fine",
 			"overrides" : {
 				"layer_height" : 0.05,
-				"layer_height_0" : 0.15,
-				"raft_airgap" : 0.07
+				"layer_height_0" : 0.10,
+				"raft_base_thickness" : 0.15,
+				"raft_airgap" : 0.10
 			},
 			"compatibleVariants" : [
 				{
