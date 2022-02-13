@@ -67,13 +67,13 @@
 			
 			"adhesion_type": 							{ "default_value": "raft" },
 			"raft_airgap" : 							{ "value": "layer_height" },
-			"raft_speed" : 						        { "value" : "math.ceil(speed_print * 0.25)" },
+			"raft_speed" : 						        { "value" : "math.ceil(speed_print * 0.30)" },
 			
 			"speed_travel":                           	{ "maximum_value": 400, "value": 300, "maximum_value_warning": 501 },
 			"speed_travel_layer_0":                   	{ "value": "math.ceil(speed_travel * 0.4)" },
 			"speed_layer_0":                           	{ "value": "math.ceil(speed_print * 0.25)" },
 			"speed_wall":                              	{ "value": "math.ceil(speed_print * 0.50)" },
-			"speed_wall_0":                            	{ "value": "math.ceil(speed_print * 0.33)" },
+			"speed_wall_0":                            	{ "value": "math.ceil(speed_print * 0.20)" },
 			"speed_wall_x":                            	{ "value": "math.ceil(speed_print * 0.70)" },
 			"speed_topbottom":                         	{ "value": "math.ceil(speed_print * 0.33)" },
 			"speed_roofing":                           	{ "value": "math.ceil(speed_print * 0.33)" },
@@ -130,7 +130,7 @@
 			"support_interface_density" : 				{ "value": 33.3 },
 			"support_interface_pattern" : 				{ "value": "'zigzag'" },
             "support_z_distance" :                      { "value": "layer_height" },
-			"support_xy_distance" :                     { "value": "1.5 * machine_nozzle_size"},
+			"support_xy_distance" :                     { "value": "2.0 * machine_nozzle_size"},
 			"support_bottom_stair_step_height" :        { "value": "layer_height"},
 			
 			"wall_thickness" : 							{ "value": "line_width * 2" },
@@ -166,19 +166,33 @@
 	],
 
 	"variants" : [
+		{
+			"id" : "Dragon - 0.15mm",
+			"overrides" : {
+				"machine_nozzle_size" : 0.15,
+				"retraction_amount": 0.60,
+				"speed_print" : 160,
+				"raft_speed" : 40,
+				"raft_base_line_width" : 0.225,
+				"raft_base_line_spacing" : 0.225
+			}
+		},
         {
 			"id" : "Dragon - 0.20mm",
 			"overrides" : {
 				"machine_nozzle_size" : 0.20,
-				"retraction_amount" : 0.60,
-				"speed_print" : 150
+				"retraction_amount" : 0.80,
+				"speed_print" : 160,
+				"raft_speed" : 40,
+				"raft_base_line_width" : 0.35,
+				"raft_base_line_spacing" : 0.35
 			}
 		},
 		{
 			"id" : "Dragon - 0.25mm",
 			"overrides" : {
 				"machine_nozzle_size" : 0.25,
-				"retraction_amount" : 0.75,
+				"retraction_amount" : 1.00,
 				"speed_print" : 200
 			}
 		},
@@ -186,7 +200,7 @@
 			"id" : "Dragon - 0.40mm",
 			"overrides" : {
 				"machine_nozzle_size" : 0.40,
-				"retraction_amount" : 1.20,
+				"retraction_amount" : 1.60,
 				"speed_print" : 200
 			}
 		}
@@ -198,14 +212,10 @@
 			"overrides" : {
 				"layer_height" : 0.20,
 				"layer_height_0" : 0.20,
-				"raft_base_thickness" : 0.20
-
+				"raft_base_thickness" : 0.20,
+				"cool_fan_full_at_height" : 1.5
 			},
 			"compatibleVariants" : [
-                {
-                    "variant" : "Dragon - 0.25mm",
-                    "overrides" : {}
-                },
 				{
 					"variant" : "Dragon - 0.40mm",
 					"overrides" : {}
@@ -218,7 +228,8 @@
 			"overrides" : { 
 				"layer_height" : 0.15,
 				"layer_height_0" : 0.20,
-				"raft_base_thickness" : 0.20
+				"raft_base_thickness" : 0.20,
+				"cool_fan_full_at_height" : 1.0
 			},
 			"compatibleVariants" : [
 				{
@@ -237,12 +248,24 @@
 			"overrides" : {
 				"layer_height" : 0.10,
 				"layer_height_0" : 0.15,
-				"raft_base_thickness" : 0.15
+				"raft_base_thickness" : 0.15,
+				"cool_fan_full_at_height" : 1.0
 			},
 			"compatibleVariants" : [
+				{
+					"variant" : "Dragon - 0.15mm",
+					"overrides" : {
+						"layer_height_0" : 0.10,
+						"raft_airgap" : 0.030,
+						"raft_base_thickness" : 0.10
+					}
+				},
                 {
 					"variant" : "Dragon - 0.20mm",
-					"overrides" : {}
+					"overrides" : {
+						"layer_height_0" : 0.10,
+						"raft_airgap" : 0.040
+					}
 				},
 				{
 					"variant" : "Dragon - 0.25mm",
@@ -261,12 +284,24 @@
 				"layer_height" : 0.07,
 				"layer_height_0" : 0.14,
 				"raft_base_thickness" : 0.14,
-				"raft_airgap" : 0.07
+				"raft_airgap" : 0.05,
+				"cool_fan_full_at_height" : 1.0
 			},
 			"compatibleVariants" : [
+				{
+					"variant" : "Dragon - 0.15mm",
+					"overrides" : {
+						"layer_height_0" : 0.10,
+						"raft_airgap" : 0.025,
+						"raft_base_thickness" : 0.10
+					}
+				},
                 {
 					"variant" : "Dragon - 0.20mm",
-					"overrides" : {}
+					"overrides" : {
+						"layer_height_0" : 0.10,
+						"raft_airgap" : 0.040
+					}
 				},
 				{
 					"variant" : "Dragon - 0.25mm",
@@ -285,12 +320,24 @@
 				"layer_height" : 0.05,
 				"layer_height_0" : 0.10,
 				"raft_base_thickness" : 0.15,
-				"raft_airgap" : 0.10
+				"raft_airgap" : 0.05,
+				"cool_fan_full_at_height" : 0.75
 			},
 			"compatibleVariants" : [
+				{
+					"variant" : "Dragon - 0.15mm",
+					"overrides" : {
+						"layer_height_0" : 0.10,
+						"raft_airgap" : 0.025,
+						"raft_base_thickness" : 0.10
+					}
+				},
                 {
 					"variant" : "Dragon - 0.20mm",
-					"overrides" : {}
+					"overrides" : {
+						"layer_height_0" : 0.10,
+						"raft_airgap" : 0.040
+					}
 				},
 				{
 					"variant" : "Dragon - 0.25mm",
@@ -308,14 +355,30 @@
 		{
 			"id" : "generic_pla",
 			"name" : "PLA",
-			"overrides" : []
+			"overrides" : [
+				{
+					"profiles" : ["superfine", "extrafine"],
+					"variants" : ["Dragon - 0.15mm", "Dragon - 0.20mm"],
+					"settings" : {
+						"raft_airgap" : 0.04
+					}
+				}
+			]
 		},
 		{
 			"id" : "generic_petg",
 			"name" : "PETG",
 			"profileFilter" : ["fine", "normal", "fast"],
 			"variantFilter" : ["Dragon - 0.25mm", "Dragon - 0.40mm"],
-			"overrides" : []
+			"overrides" : [
+				{
+					"profiles" : ["fine", "normal", "fast"],
+					"variants" : ["Dragon - 0.25mm", "Dragon - 0.40mm"],
+					"settings" : {
+						"speed_print" : 160
+					}
+				}
+			]
 		},
 		{
 			"id" : "generic_abs",
@@ -330,22 +393,9 @@
 			"overrides" : [
 				{
 					"profiles" : ["superfine", "extrafine", "fine", "normal", "fast"],
-					"variants" : ["Dragon - 0.20mm", "Dragon - 0.25mm"],
+					"variants" : ["Dragon - 0.15mm", "Dragon - 0.20mm", "Dragon - 0.25mm", "Dragon - 0.40mm"],
 					"settings" : {
-						"cool_fan_speed" : 30,
-						"material_flow" : 97.5,
-						"skin_material_flow" : 97.50,
-						"roofing_material_flow" : 95.00
-					}
-				},
-				{
-					"profiles" : ["superfine", "extrafine", "fine", "normal", "fast"],
-					"variants" : ["Dragon - 0.40mm"],
-					"settings" : {
-						"cool_fan_speed" : 30,
-						"material_flow" : 97.5,
-						"skin_material_flow" : 95,
-						"roofing_material_flow" : 90
+						"cool_fan_speed" : 20
 					}
 				}
 			]
@@ -369,7 +419,7 @@
 			"id" : "generic_greentec",
 			"name" : "GREENTEC",
 			"profileFilter" : ["fine", "normal", "fast"],
-			"variantFilter" : ["Dragon - 0.25mm", "Dragon - 0.40mm"]
+			"variantFilter" : ["Dragon - 0.20mm", "Dragon - 0.25mm", "Dragon - 0.40mm"]
 		},
 		{
 			"id" : "generic_nylon",
