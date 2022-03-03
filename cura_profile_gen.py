@@ -11,6 +11,48 @@ log = logging.getLogger('cura-profile-gen')
 # File definition
 T = TypeVar('T')
 
+class CuraSettingsDef:
+    def __init__(self):
+        self.fdm_printer_def = None
+        self.fdm_extruder_def = None
+
+    def load_settings_def(self, cura_path : str):
+        def_path = os.path.join(cura_path, 'resources', 'definitions')
+        with open(os.path.join(def_path, 'fdmprinter.def.json')) as fdm_printer_def_file:
+            self.fdm_printer_def = json.load(fdm_printer_def_file)
+        with open(os.path.join(def_path, 'fdmextruder.def.json')) as fdm_extruder_def_file:
+            self.fdm_extruder_def = json.load(fdm_extruder_def_file)
+
+    @property
+    def version(self) -> int:
+        return int(self.fdm_printer_def['metadata']['setting_version'])
+
+
+    def _validate_def_node(self, setting_def_node : dict, setting_name : str) -> bool:
+        if setting_name in setting_def_node:
+            return True
+        if (children := setting_def_node.get('children')) != None:
+            if setting_name in children:
+                return True
+            for child_def in children.values():
+                if self._validate_def_node(child_def, setting_name) == True:
+                    return True
+        return False
+
+    def validate_printer_setting(self, setting_name : str) -> bool:
+        """Validates the setting against the schema in definition"""
+        for setting_category in self.fdm_printer_def['settings'].values():
+            if self._validate_def_node(setting_category, setting_name) == True:
+                return True
+        return False
+    
+    def validate_extruder_setting(self, setting_name : str) -> bool:
+        """Validate the setting against the schema in definition"""
+        for setting_category in self.fdm_extruder_def["settings"].values():
+            if self._validate_def_node(setting_category, setting_name) == True:
+                return True
+        return False
+
 class Extruder:
     ExtruderId = NewType('ExtruderId', str)
 
@@ -238,7 +280,7 @@ class Printer:
                 for k, v in settings.items():
                     fh.write(f"{k} = {v}\n")
             
-    def save_variants_cfg(self, path):
+    def save_variants_cfg(self, path : str, cura_settings_def : CuraSettingsDef):
         """ Saving variants config """
         log.info(f"Writing variants config files")
 
@@ -251,14 +293,14 @@ class Printer:
                     'definition' : self.id
                 },
                 metadata = {
-                    'setting_version' : 19,
+                    'setting_version' : cura_settings_def.version,
                     'type' : 'variant',
                     'hardware_type' : 'nozzle'
                 },
                 values = variant.overrides
             )
 
-    def save_profiles_cfg(self, path):
+    def save_profiles_cfg(self, path : str, cura_settings_def : CuraSettingsDef):
         """ Saving profiles config """
         log.info(f"Writing profiles config files")
 
@@ -272,7 +314,7 @@ class Printer:
                     'definition' : self.id
                 },
                 metadata = {
-                    'setting_version' : 17,
+                    'setting_version' : cura_settings_def.version,
                     'type' : 'quality',
                     'quality_type' : profile.id,
                     'global_quality' : True
@@ -280,7 +322,7 @@ class Printer:
                 values = profile.overrides
             )
 
-    def save_material_cfg(self, path):
+    def save_material_cfg(self, path : str, cura_settings_def : CuraSettingsDef):
         """ Saving materials config """
         log.info(f"Writing material config files")
 
@@ -325,7 +367,7 @@ class Printer:
                             'definition' : self.id
                         },
                         metadata = {
-                            'setting_version' : 17,
+                            'setting_version' : cura_settings_def.version,
                             'type' : 'quality',
                             'quality_type' : profile.id,
                             'material' : material.id,
@@ -335,8 +377,19 @@ class Printer:
                     )
 
 # Parse JSON
-def load_printer_profile(path: str):
+def load_printer_profile(path: str, settings_validator : CuraSettingsDef):
     """Load the json file"""
+
+    def validate_printer_overrides(overrides : dict):
+        for override in overrides.keys():
+            if settings_validator.validate_printer_setting(setting_name=override) == False:
+                raise Exception(f"Setting {override} is invalid, please check the fdmprinter.def.json for reference")
+
+    def validate_extruder_overrides(overrides : dict):
+        for override in overrides.keys():
+            if settings_validator.validate_extruder_setting(setting_name=override) == False:
+                raise Exception(f"Setting {override} is invalid, please check the fdmextruder.def.json for reference")
+
     with open(path) as fh:
         json_def = json.load(fh)
 
@@ -353,6 +406,9 @@ def load_printer_profile(path: str):
             raise Exception(f"File {path} printer '{printer_id}' is missing the 'metadata' field")
         if (printer_overrides := printer_json.get('overrides')) == None:
             raise Exception(f"File {path} printer '{printer_id}' is missing the 'overrides' field")
+
+        # Validate the overrides
+        validate_printer_overrides(printer_overrides)
 
         printer = Printer(
             printer_id = printer_id, 
@@ -379,6 +435,9 @@ def load_printer_profile(path: str):
             if (extruder_overrides := extruder_json.get('overrides')) == None:
                 raise Exception(f"File {path} extruder '{extruder_id}' is missing the 'overrides' section")
             
+            # validate the overrides
+            validate_extruder_overrides(extruder_overrides)
+
             printer.add_extruder(extruder = Extruder(
                 id = extruder_id,
                 name = extruder_name,
@@ -402,6 +461,8 @@ def load_printer_profile(path: str):
                 raise Exception(f"File {path} variant '{variant_id} references an undefined parent variant '{parent_variant_id}, parent variant definition must preceed the children")
             parent_variant = printer.variants[parent_variant_id] if parent_variant_id != None else None
 
+            validate_printer_overrides(variant_overrides)
+
             printer.add_variant(variant = Variant(
                 id = variant_id,
                 overrides = variant_overrides,
@@ -420,6 +481,8 @@ def load_printer_profile(path: str):
             if (profile_name := profile_json.get('name')) == None:
                 raise Exception(f"File {path} profile '{profile_id} is missing the 'name' field")
             profile_overrides = profile_json.get('overrides', {})
+
+            validate_printer_overrides(profile_overrides)
 
             profile = Profile(
                 id = profile_id, 
@@ -467,6 +530,8 @@ def load_printer_profile(path: str):
                     variants_ref_ids = override.get('variants')
                     settings = override.get('settings', {})
 
+                    validate_printer_overrides(settings)
+
                     material.overrides.append(Material.Overrides(
                         variant_ids = variants_ref_ids, 
                         profile_ids = profiles_ref_ids, 
@@ -477,30 +542,43 @@ def load_printer_profile(path: str):
         # DONE
         return printer
 
-
 def main():
     """ Setup the parser"""
     parser = argparse.ArgumentParser()
-    parser.add_argument("-d", "--deploy-dir", help="Deployment directory for the Cura profiles")
+    parser.add_argument("--cura-dir", help="Path to Cura installation", required = True)
+    parser.add_argument("--output-dir", help="Output directory override")
     parser.add_argument("profile_gen_path", type=str, help="Path to the profile-gen.json file")
+    
+    settings_ver = None
+    deployment_dir = None
 
     args = parser.parse_args()
+    
+    if (args.output_dir != None):
+        deployment_dir = args.output_dir
+    else:
+        deployment_dir = os.path.join(args.cura_dir, 'resources')
+    
+    cura_settings_def = CuraSettingsDef()
+    cura_settings_def.load_settings_def(args.cura_dir)
+    
+    log.info(f"Generating profiles under {deployment_dir}, Cura settings Ver = {cura_settings_def.version}")
     log.info(f"Loading profile settings from {args.profile_gen_path}...")
+
     try:
-        printer = load_printer_profile(args.profile_gen_path)
+        printer = load_printer_profile(args.profile_gen_path, settings_validator=cura_settings_def)
     except Exception as exc:
         log.error(f"Error loading the profile-gen file:")
         log.exception(exc, exc_info=1, stack_info=False)
         exit(1)
 
-    deploy_dir = args.deploy_dir if args.deploy_dir != None else "."
-    logging.info(f"Saving generated profiles onto {deploy_dir}")
+    logging.info(f"Saving generated profiles onto {deployment_dir}")
     try:
-        printer.save_printer_def(os.path.join(deploy_dir, "definitions"))
-        printer.save_extruder_def(os.path.join(deploy_dir, "extruders"))
-        printer.save_variants_cfg(os.path.join(deploy_dir, "variants"))
-        printer.save_profiles_cfg(os.path.join(deploy_dir, "quality"))
-        printer.save_material_cfg(os.path.join(deploy_dir, "quality"))
+        printer.save_printer_def(path = os.path.join(deployment_dir, "definitions"))
+        printer.save_extruder_def(path = os.path.join(deployment_dir, "extruders"))
+        printer.save_variants_cfg(path = os.path.join(deployment_dir, "variants"), cura_settings_def=cura_settings_def)
+        printer.save_profiles_cfg(path = os.path.join(deployment_dir, "quality"), cura_settings_def=cura_settings_def)
+        printer.save_material_cfg(path = os.path.join(deployment_dir, "quality"), cura_settings_def=cura_settings_def)
     except Exception as exc:
         log.error(f"Error saving definition files:")
         log.exception(exc, exc_info=1, stack_info=False)
