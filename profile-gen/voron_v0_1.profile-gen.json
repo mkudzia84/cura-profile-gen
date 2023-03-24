@@ -1,169 +1,219 @@
 {
-	"printer" : {
-		"id" : "voron_v0_1",
-		"name": "Voron V0.1",
-		"inherits": "fdmprinter",
-		"metadata": {
-			"visible": true,
-			"author": "Marcin Kudzia",
-			"manufacturer": "VoronDesign",
-			"file_formats": "text/x-gcode",
-			"preferred_quality_type": "fast",
-			"icon": "icon_ultimaker2",
-			
-			"variants_name" : "Toolhead",
-			"preferred_variant_name" : "MiniAB - 0.40mm",
-			"preferred_material" : "generic_abs",
-			
-			"quality_definition" : "voron_v0_1",
-			"machine_extruder_trains":
-			{
-				"0": "voron_v0_1_extruder_0"
-			}
-		},
+	"printers" : [
+		{
+			"id" : "voron_v0_1_120",
+			"name" : "Voron V0.1 - 120",
+			"inherits": "fdmprinter",
+			"metadata" : {
+				"visible": true,
 
-		"overrides": {
-			"machine_name": 							{ "default_value": "Voron V0.1" },
-			"machine_heated_bed": 						{ "default_value": true },
-			"machine_width": 							{ "default_value": 120 },
-			"machine_height": 							{ "default_value": 120 },
-			"machine_depth": 							{ "default_value": 120 },
-			"machine_center_is_zero": 					{ "default_value": false },
-			
-			"machine_max_feedrate_z": 					{ "default_value": 40 },
-			"machine_max_feedrate_e": 					{ "default_value": 120 },
-			"machine_max_acceleration_x": 				{ "default_value": 1500 },
-			"machine_max_acceleration_y": 				{ "default_value": 1500 },
-			"machine_max_acceleration_z": 				{ "default_value": 250 },
-			"machine_acceleration": 					{ "default_value": 1500 },
-			"machine_max_jerk_xy": 						{ "default_value": 20 },
-			"machine_max_jerk_z": 						{ "default_value": 1 },
-			"machine_max_jerk_e": 						{ "default_value": 60 },
+				"platform": "voron0_120_bed.stl",
+				
+				"author": "Marcin Kudzia",
+				"manufacturer": "VoronDesign",
+				"file_formats": "text/x-gcode",
+				"first_start_actions": ["MachineSettingsAction"],
 
-			"machine_endstop_positive_direction_x":         { "default_value": true },
-			"machine_endstop_positive_direction_y":         { "default_value": true },
-			"machine_endstop_positive_direction_z":         { "default_value": false },
+				"variants_name" : "Toolhead",
+				"preferred_quality_type": "fast",
+				"preferred_variant_name" : "MiniAB - 0.40mm",
+				"preferred_material" : "generic_abs",
 
-			"material_diameter": 						{ "default_value": 1.75 },
-			"material_bed_temperature": 				{ "default_value": 60 },
-			
-			"layer_height": 							{ "value": "machine_nozzle_size * 0.50" },
-			
-			"retraction_enable":						{ "default_value": true },
-			"retraction_speed":                        	{ "default_value": 40, "maximum_value_warning": 130 },
-			"retraction_amount":                        { "value": "math.ceil(machine_nozzle_size * 2.0)"},
-			"retraction_retract_speed":               	{ "maximum_value_warning": 130 },
-			"retraction_prime_speed":                  	{ "value": "math.ceil(retraction_speed * 0.4)", "maximum_value_warning": 130 },
-			"retraction_hop_enabled":                  	{ "default_value": true },
-			"retraction_hop":                          	{ "default_value": 0.2 },
-			"retraction_combing":                      	{ "value": "'noskin'" },
-        	"retraction_combing_max_distance":         	{ "default_value": 10 },
+				"exclude_materials": [
+					"ultimaker_abs_black",
+					"ultimaker_abs_blue",
+					"ultimaker_abs_green",
+					"ultimaker_abs_grey",
+					"ultimaker_abs_orange",
+					"ultimaker_abs_pearl-gold",
+					"ultimaker_abs_red",
+					"ultimaker_abs_silver-metallic",
+					"ultimaker_abs_white",
+					"ultimaker_abs_yellow",
+					"ultimaker_bam",
+					"ultimaker_cpe_black",
+					"ultimaker_cpe_blue",
+					"ultimaker_cpe_dark-grey",
+					"ultimaker_cpe_green",
+					"ultimaker_cpe_light-grey",
+					"ultimaker_cpe_plus_black",
+					"ultimaker_cpe_plus_transparent",
+					"ultimaker_cpe_plus_white",
+					"ultimaker_cpe_red",
+					"ultimaker_cpe_transparent",
+					"ultimaker_cpe_white",
+					"ultimaker_cpe_yellow",
+					"ultimaker_nylon_black",
+					"ultimaker_nylon_transparent",
+					"ultimaker_pc_black",
+					"ultimaker_pc_transparent",
+					"ultimaker_pc_white",
+					"ultimaker_pla_black",
+					"ultimaker_pla_blue",
+					"ultimaker_pla_green",
+					"ultimaker_pla_magenta",
+					"ultimaker_pla_orange",
+					"ultimaker_pla_pearl-white",
+					"ultimaker_pla_red",
+					"ultimaker_pla_silver-metallic",
+					"ultimaker_pla_transparent",
+					"ultimaker_pla_white",
+					"ultimaker_pla_yellow",
+					"ultimaker_pp_transparent",
+					"ultimaker_pva",
+					"ultimaker_tough_pla_black",
+					"ultimaker_tough_pla_green",
+					"ultimaker_tough_pla_red",
+					"ultimaker_tough_pla_white",
+					"ultimaker_tpu_black",
+					"ultimaker_tpu_blue",
+					"ultimaker_tpu_red",
+					"ultimaker_tpu_white"
+				]
+			},
 
-			"infill_before_walls" : 					{ "default_value": false },
+			"overrides" : {		
+				"machine_name":								{ "default_value": "Voron v0.1 - 120" },
+				"machine_width": 							{ "default_value": 120 },
+				"machine_height": 							{ "default_value": 120 },
+				"machine_depth": 							{ "default_value": 120 },
 
-			"travel_avoid_other_parts" : 				{ "default_value": false },
-			"travel_avoid_supports" : 					{ "default_value": true },
-			"travel_retract_before_outer_wall" : 		{ "default_value": true },
-			
-			"adhesion_type": 							{ "default_value": "raft" },
-			"raft_airgap" : 							{ "value": "layer_height" },
-			"raft_speed" : 						        { "value" : "math.ceil(speed_print * 0.25)" },
-			"raft_margin" :								{ "default_value" : 5.0 },
-			
-			"skirt_line_count" : 						{ "default_value" : 3 },
-
-			"speed_travel":                           	{ "maximum_value": 400, "value": 300, "maximum_value_warning": 501 },
-			"speed_travel_layer_0":                   	{ "value": "math.ceil(speed_travel * 0.4)" },
-			"speed_layer_0":                           	{ "value": "math.ceil(speed_print * 0.20)" },
-			"speed_wall":                              	{ "value": "math.ceil(speed_print * 0.50)" },
-			"speed_wall_0":                            	{ "value": "math.ceil(speed_print * 0.33)" },
-			"speed_wall_x":                            	{ "value": "math.ceil(speed_print * 0.70)" },
-			"speed_topbottom":                         	{ "value": "math.ceil(speed_print * 0.33)" },
-			"speed_roofing":                           	{ "value": "math.ceil(speed_print * 0.33)" },
-			"speed_infill" :            	           	{ "value": "math.ceil(speed_print * 1.00)" },
-			"speed_support" : 							{ "value": "math.ceil(speed_print * 0.70)" },
-			"speed_slowdown_layers":                   	{ "default_value": 4 },
-
-			"roofing_layer_count":                     	{ "default_value": 1 },
-			
-			"optimize_wall_printing_order" :      		{ "default_value": true },
-			"infill_enable_travel_optimization":       	{ "default_value": true },
-			
-			"minimum_polygon_circumference":           	{ "default_value": 0.2 },
-			
-			"wall_overhang_angle":                     	{ "default_value": 75 },
-			"wall_overhang_speed_factor":              	{ "default_value": 50 },
-			
-			"z_seam_type":								{ "default_value" : "back" },
-
-			"bridge_settings_enabled":                 	{ "default_value": true },
-			"bridge_wall_coast":                       	{ "default_value": 10 },
-			"bridge_fan_speed":                        	{ "default_value": 100 },
-			"bridge_fan_speed_2":                      	{ "resolve": "max(cool_fan_speed, 50)" },
-			"bridge_fan_speed_3":                      	{ "resolve": "max(cool_fan_speed, 20)" },
-			
-			"alternate_extra_perimeter":               	{ "default_value": false },
-			
-			"cool_min_layer_time_fan_speed_max":       	{ "default_value": 20 },
-			"cool_min_layer_time":                      { "default_value": 15 },
-			"cool_fan_speed_min":                       { "value": "cool_fan_speed" },
-			"cool_fan_full_at_height":                  { "value": "resolveOrValue('layer_height_0') + resolveOrValue('layer_height') * max(1, cool_fan_full_layer - 1)" },
-			"cool_fan_full_layer":                      { "default_value": 4 },
-			"cool_lift_head":                           { "default_value": true },
-			
-			"line_width":                               { "value": "machine_nozzle_size" },
-			"wall_line_width":                          { "value": "machine_nozzle_size" },
-			"skin_line_width":                          { "value": "machine_nozzle_size"},
-			"fill_perimeter_gaps":                      { "default_value": "nowhere" },
-			"fill_outline_gaps":                        { "default_value": true },
-			"meshfix_maximum_resolution":               { "default_value": 0.01 },
-
-			"top_bottom_pattern":						{ "default_value": "zigzag"},
-
-			"zig_zaggify_infill":                       { "default_value": true },
-			"min_infill_area":                          { "default_value": 5.0 },
-			
-			"acceleration_enabled":                     { "default_value": false },
-			"acceleration_print":                       { "default_value": 2200 },
-			"acceleration_wall_0":                      { "default_value": 1800 },
-			"acceleration_layer_0":                     { "default_value": 1800 },
-			"acceleration_travel_layer_0":              { "default_value": 1800 },
-			"acceleration_roofing":                     { "default_value": 1800 },
-			
-			"support_angle" :                           { "default_value": 40 },
-			"support_interface_enable" : 				{ "default_value": true },
-			"support_interface_height" : 				{ "value": "layer_height * 3.0" },
-			"support_interface_density" : 				{ "default_value": 33.3 },
-			"support_interface_pattern" : 				{ "value": "'grid'" },
-			"support_z_distance" :                      { "value": "2.0 * layer_height" },
-			"support_xy_distance" :                     { "value": "3.0 * machine_nozzle_size"},
-			"support_bottom_stair_step_height" :        { "value": "layer_height"},
-			"support_line_width" :                      { "value": "machine_nozzle_size * 0.9"},
-			
-			"wall_thickness" : 							{ "value": "line_width * 2" },
-			
-			"machine_head_with_fans_polygon":          	{ "default_value": [ [-35, 65], [-35, -50], [35, -50], [35, 65] ] },
-			"gantry_height" : 							{ "default_value": 28 },
+				"machine_max_feedrate_z": 					{ "default_value": 40 },
+				"machine_max_feedrate_e": 					{ "default_value": 120 },
+				"machine_max_acceleration_x": 				{ "default_value": 4500 },
+				"machine_max_acceleration_y": 				{ "default_value": 4500 },
+				"machine_max_acceleration_z": 				{ "default_value": 350 },
+				"machine_acceleration": 					{ "default_value": 4500 },
+				"machine_max_jerk_xy": 						{ "default_value": 20 },
+				"machine_max_jerk_z": 						{ "default_value": 1 },
+				"machine_max_jerk_e": 						{ "default_value": 60 },
+				"machine_center_is_zero": 					{ "default_value": false },
+				"machine_heated_bed": 						{ "default_value": true },
+				"machine_gcode_flavor":                    	{ "default_value": "RepRap (Marlin/Sprinter)" },
+				"machine_start_gcode":                      { "default_value": "print_start BED={material_bed_temperature_layer_0} EXTRUDER={material_print_temperature_layer_0}\nset_material TYPE={material_type}" },
+				"machine_end_gcode":                        { "default_value": "print_end " },
+				"machine_endstop_positive_direction_x":         { "default_value": true },
+				"machine_endstop_positive_direction_y":         { "default_value": true },
+				"machine_endstop_positive_direction_z":         { "default_value": false },
+		
+				"material_diameter": 						{ "default_value": 1.75 },
+				"material_bed_temperature": 				{ "default_value": 60 },
+				
+				"layer_height": 							{ "value": "machine_nozzle_size * 0.50" },
+				
+				"retraction_enable":						{ "default_value": true },
+				"retraction_speed":                        	{ "default_value": 35, "maximum_value_warning": 130 },
+				"retraction_amount":                        { "value": "math.ceil(machine_nozzle_size * 2.0)"},
+				"retraction_retract_speed":               	{ "maximum_value_warning": 130 },
+				"retraction_prime_speed":                  	{ "value": "math.ceil(retraction_speed * 0.4)", "maximum_value_warning": 130 },
+				"retraction_hop_enabled":                  	{ "default_value": true },
+				"retraction_hop":                          	{ "default_value": 0.4 },
+				"retraction_combing":                      	{ "default_value": "'off'" },
+				"retraction_combing_max_distance":          { "default_value": 10 },
 	
-			"jerk_enabled" :							{ "default_value": false },
-			"jerk_wall_0" :								{ "default_value": 10 },
-			"jerk_roofing" :							{ "default_value": 10 },
-			
-			"machine_gcode_flavor":                    	{ "default_value": "RepRap (RepRap)" },
-			"machine_start_gcode":                      { "default_value": "print_start" },
-			"machine_end_gcode":                        { "default_value": "print_end" }
+				"infill_before_walls" : 					{ "default_value": false },
+	
+				"travel_avoid_other_parts" : 				{ "default_value": false },
+				"travel_avoid_supports" : 					{ "default_value": true },
+				"travel_retract_before_outer_wall" : 		{ "default_value": true },
+				
+				"adhesion_type": 							{ "default_value": "raft" },
+				"raft_airgap" : 							{ "value": "layer_height" },
+				"raft_speed" : 						        { "value" : "math.ceil(speed_print * 0.25)" },
+				"raft_margin" :								{ "default_value": 5.0 },
+				"layer_0_z_overlap" :						{ "value": "raft_airgap * 0.25" },
+				
+				"skirt_line_count" : 						{ "default_value": 3 },
+				"skirt_brim_minimal_length":               	{ "default_value": 550 },
+	
+				"speed_travel":                           	{ "maximum_value": 400, "value": 400, "maximum_value_warning": 501 },
+				"speed_travel_layer_0":                   	{ "value": "math.ceil(speed_travel * 0.4)" },
+				"speed_layer_0":                           	{ "value": "math.ceil(speed_print * 0.20)" },
+				"speed_wall":                              	{ "value": "math.ceil(speed_print * 1.00)" },
+				"speed_wall_0":                            	{ "value": "math.ceil(speed_print * 0.50)" },
+				"speed_wall_x":                            	{ "value": "math.ceil(speed_print * 1.00)" },
+				"speed_topbottom":                         	{ "value": "math.ceil(speed_print * 0.33)" },
+				"speed_roofing":                           	{ "value": "math.ceil(speed_print * 0.33)" },
+				"speed_infill" :            	           	{ "value": "math.ceil(speed_print * 1.25)" },
+				"speed_support" :                           { "value": "math.ceil(speed_print * 0.75)" },
+				"speed_slowdown_layers":                   	{ "default_value": 4 },
+	
+				"roofing_layer_count":                     	{ "value": 1 },
+				
+				"optimize_wall_printing_order" :      		{ "default_value": true },
+				"infill_enable_travel_optimization":       	{ "default_value": true },
+				
+				"minimum_polygon_circumference":           	{ "default_value": 0.2 },
+				
+				"wall_overhang_angle":                     	{ "default_value": 75 },
+				"wall_overhang_speed_factor":              	{ "default_value": 50 },
+	
+				"z_seam_type":								{ "default_value" : "back" },
+				
+				"bridge_settings_enabled":                 	{ "default_value": true },
+				"bridge_wall_coast":                       	{ "default_value": 10 },
+				"bridge_fan_speed":                        	{ "default_value": 100 },
+				"bridge_fan_speed_2":                      	{ "resolve": "max(cool_fan_speed, 50)" },
+				"bridge_fan_speed_3":                      	{ "resolve": "max(cool_fan_speed, 20)" },
+				
+				"alternate_extra_perimeter":               	{ "default_value": false },
+				
+				"cool_min_layer_time_fan_speed_max":       	{ "default_value": 20 },
+				"cool_min_layer_time":                      { "default_value": 5 },
+				"cool_fan_speed_min":                       { "value": "cool_fan_speed" },
+				"cool_fan_full_layer":                      { "default_value": 4 },
+				"cool_lift_head":                           { "default_value": true },
+				"cool_min_speed":							{ "value": "speed_wall" }, 
+	
+				"line_width":                               { "value": "machine_nozzle_size" },
+				"wall_line_width":                          { "value": "machine_nozzle_size" },
+				"skin_line_width":                          { "value": "machine_nozzle_size"},
+				"fill_outline_gaps":                        { "default_value": true },
+				"meshfix_maximum_resolution":               { "default_value": 0.01 },
+	
+				"top_bottom_pattern":						{ "default_value": "lines" },
+	
+				"zig_zaggify_infill":                       { "default_value": true },
+				"min_infill_area":                          { "default_value": 5.0 },
+				
+				"acceleration_enabled":                     { "value": false },
+				"acceleration_print":                       { "value": 2500 },
+				"acceleration_wall_0":                      { "value": 1000 },
+				"acceleration_wall_x":						{ "value": 2000 },
+				"acceleration_travel":						{ "value": 2500 },
+				"acceleration_support":						{ "value": 2500 },
+				"acceleration_layer_0":                     { "value": 2000 },
+				"acceleration_travel_layer_0":              { "value": 2500 },
+				"acceleration_roofing":                     { "value": 2000 },
+				
+				"support_angle" :                           { "default_value": 40 },
+				"support_interface_enable" : 				{ "default_value": true },
+				"support_interface_height" : 				{ "value": "layer_height * 3.0" },
+				"support_interface_density" : 				{ "default_value": 50.0 },
+				"support_interface_pattern" : 				{ "default_value": "concentric" },
+				"support_z_distance" :                      { "value": "2.0 * layer_height" },
+				"support_xy_distance" :                     { "value": "2.0 * machine_nozzle_size"},
+				"support_bottom_stair_step_height" :        { "value": "layer_height"},
+				"support_line_width" :                      { "value": "machine_nozzle_size * 0.9"},
+				"support_interface_line_width" : 			{ "value": "machine_nozzle_size * 0.9"},
+				
+				"wall_thickness" : 							{ "value": "line_width * 2" },
+				
+				"machine_head_with_fans_polygon":          	{ "default_value": [ [-35, 65], [-35, -50], [35, -50], [35, 65] ] },
+				"gantry_height" : 							{ "default_value": 28 },
+		
+				"jerk_enabled" :							{ "default_value": false },
+				"jerk_wall_0" :								{ "default_value": 10 },
+				"jerk_roofing" :							{ "default_value": 10 }
+			}
 		}
-	},
+	],
+
+	"baseQualityDefinition" : "voron_v0_1_120",
 
 	"extruders" : [
 		{
-			"id": "voron_v0_1_extruder_0",
 			"name": "Extruder 1",
-			"inherits": "fdmextruder",
-			"metadata": {
-				"machine": "voron_v0_1",
-				"position": "0"
-			},
 		
 			"overrides": {
 				"extruder_nr" : 		{ "default_value": 0 },
@@ -175,52 +225,82 @@
 	"variants" : [
 		{
 			"id" : "MiniAB - 0.15mm",
-			"overrides" : {
+			"toolheadVariantSettings" : {
 				"machine_nozzle_size" : 0.15,
 				"retraction_amount": 0.60,
 				"speed_print" : 100,
 
+				"min_wall_line_width" : 0.125,
+
 				"adhesion_type" : "raft",
-				"raft_base_thickness" : 0.10,
 				"raft_base_line_width" : 0.225,
 				"raft_base_line_spacing" : 0.225,
+				"raft_surface_line_spacing" : 0.250,
+
+				"retraction_count_max" : 10
+			},
+
+			"toolheadVariantLimits" : {
+				"layer_height_0" : {
+					"min" : 0.10,
+					"max" : 0.10
+				},
+
+				"raft_base_thickness" : {
+					"min" : 0.10,
+					"max" : 0.10
+				}
+			}
+		},
+        {
+			"id" : "MiniAB - 0.20mm",
+			"toolheadVariantSettings" : {
+				"machine_nozzle_size" : 0.20,
+				"retraction_amount" : 0.80,
+				"speed_print" : 120,
+
+				"min_wall_line_width" : 0.15,
+
+				"adhesion_type" : "raft",
+				"raft_base_line_width" : 0.35,
+				"raft_base_line_spacing" : 0.35,
 				"raft_surface_line_spacing" : 0.250,
 
 				"retraction_count_max" : 10
 			}
 		},
 		{
-			"id" : "MiniAB - 0.20mm",
-			"overrides" : {
-				"machine_nozzle_size" : 0.20,
-				"retraction_amount": 0.80,
-				"speed_print" : 120,
-
-				"adhesion_type" : "raft",
-				"raft_base_thickness" : 0.15,
-				"raft_base_line_width" : 0.35,
-				"raft_base_line_spacing" : 0.35,
-				"raft_surface_line_spacing" : 0.24,
-
-				"retraction_count_max" : 10
-			}
-		},
-		{
 			"id" : "MiniAB - 0.25mm",
-			"overrides" : {
+			"toolheadVariantSettings" : {
 				"machine_nozzle_size" : 0.25,
 				"retraction_amount" : 1.00,
-				"speed_print" : 200,
+				"speed_print" : 120,
+
+				"min_wall_line_width" : 0.15,
 
 				"adhesion_type" : "skirt"
 			}
 		},
 		{
 			"id" : "MiniAB - 0.40mm",
-			"overrides" : {
+			"toolheadVariantSettings" : {
 				"machine_nozzle_size" : 0.40,
-				"retraction_amount": 1.60,
-				"speed_print" : 200,
+				"retraction_amount" : 1.60,
+				"speed_print" : 160,
+
+				"min_wall_line_width" : 0.20,
+
+				"adhesion_type" : "skirt"
+			}
+		},
+		{
+			"id" : "MiniAB - 0.60mm",
+			"toolheadVariantSettings" : {
+				"machine_nozzle_size" : 0.60,
+				"retraction_amount" : 1.60,
+				"speed_print" : 160,
+
+				"min_wall_line_width" : 0.30,
 
 				"adhesion_type" : "skirt"
 			}
@@ -228,230 +308,119 @@
 	],
 	"profiles" : [
 		{
+ 			"id" : "superfast",
+			"name" : "Super Fast",
+			"profileSettings" : {
+				"layer_height" : 0.30,
+				"layer_height_0" : 0.20
+			},
+
+			"compatibleVariants" : ["MiniAB - 0.60mm", "MiniAB - 0.40mm"]
+		},
+		{
 			"id" : "fast",
 			"name" : "Fast",
-			"overrides" : {
+			"profileSettings" : {
 				"layer_height" : 0.20,
-				"cool_fan_full_at_height" : 1.5
+				"layer_height_0" : 0.20
 			},
-			"compatibleVariants" : [
-				{
-					"variant" : "MiniAB - 0.40mm",
-					"overrides" : {
-						"layer_height_0" : 0.20
-					}
-				}
-			]
+
+			"compatibleVariants" : ["MiniAB - 0.60mm", "MiniAB - 0.40mm"]
 		},
 		{
 			"id" : "normal",
 			"name" : "Normal",
-			"overrides" : { 
+			"profileSettings" : { 
 				"layer_height" : 0.15,
-				"cool_fan_full_at_height" : 1.5
+				"layer_height_0" : 0.20
 			},
-			"compatibleVariants" : [
-				{
-					"variant" : "MiniAB - 0.25mm",
-					"overrides" : {
-						"layer_height_0" : 0.15
-					}
-				},
-				{
-					"variant" : "MiniAB - 0.40mm",
-					"overrides" : {
-						"layer_height_0" : 0.20
-					}
-				}
-			]
+
+			"compatibleVariants" : ["MiniAB - 0.60mm", "MiniAB - 0.40mm", "MiniAB - 0.25mm"]
 		},
 		{
 			"id" : "fine",
 			"name" : "Fine",
-			"overrides" : {
+			"profileSettings" : {
 				"layer_height" : 0.10,
-				"cool_fan_full_at_height" : 1.0
+				"layer_height_0" : 0.15
 			},
-			"compatibleVariants" : [
-				{
-					"variant" : "MiniAB - 0.15mm",
-					"overrides" : {
-						"layer_height_0" : 0.10
-					}
-				},
-				{
-					"variant" : "MiniAB - 0.20mm",
-					"overrides" : {
-						"layer_height_0" : 0.10
-					}
-				},
-				{
-					"variant" : "MiniAB - 0.25mm",
-					"overrides" : {
-						"layer_height_0" : 0.15
-					}
-				},
-				{
-					"variant" : "MiniAB - 0.40mm",
-					"overrides" : {
-						"layer_height_0" : 0.20
-					}
-				}
-			]
+
+			"compatibleVariants" : ["MiniAB - 0.40mm", "MiniAB - 0.25mm", "MiniAB - 0.20mm", "MiniAB - 0.15mm"]
 		},
 		{
 			"id" : "extrafine",
 			"name" : "Extra Fine",
-			"overrides" : {
+			"profileSettings" : {
 				"layer_height" : 0.07,
-				"cool_fan_full_at_height" : 1.5
+				"layer_height_0" : 0.14
 			},
-			"compatibleVariants" : [
-				{
-					"variant" : "MiniAB - 0.15mm",
-					"overrides" : {
-						"layer_height_0" : 0.10
-					}
-				},
-				{
-					"variant" : "MiniAB - 0.20mm",
-					"overrides" : {
-						"layer_height_0" : 0.10
-					}
-				},
-				{
-					"variant" : "MiniAB - 0.25mm",
-					"overrides" : {
-						"layer_height_0" : 0.14
-					}
-				},
-				{
-					"variant" : "MiniAB - 0.40mm",
-					"overrides" : {
-						"layer_height_0" : 0.14
-					}
-				}
-			]
+
+			"compatibleVariants" : ["MiniAB - 0.40mm", "MiniAB - 0.25mm", "MiniAB - 0.20mm", "MiniAB - 0.15mm"]
 		},
-		{
+        {
 			"id" : "superfine",
 			"name" : "Super Fine",
-			"overrides" : {
+			"profileSettings" : {
 				"layer_height" : 0.05,
-				"cool_fan_full_at_height" : 1.5
+				"layer_height_0" : 0.10
 			},
-			"compatibleVariants" : [
-				{
-					"variant" : "MiniAB - 0.15mm",
-					"overrides" : {
-						"layer_height_0" : 0.10
-					}
-				},
-				{
-					"variant" : "MiniAB - 0.20mm",
-					"overrides" : {
-						"layer_height_0" : 0.10
-					}
-				},
-				{
-					"variant" : "MiniAB - 0.25mm",
-					"overrides" : {
-						"layer_height_0" : 0.10
-					}
-				},
-				{
-					"variant" : "MiniAB - 0.40mm",
-					"overrides" : {
-						"layer_height_0" : 0.15
-					}
-				}
-			]
+
+			"compatibleVariants" : ["MiniAB - 0.40mm", "MiniAB - 0.25mm", "MiniAB - 0.20mm", "MiniAB - 0.15mm"]
 		}
 		
 	],
+
 	"materials" : [
 		{
 			"id" : "generic_pla",
 			"name" : "PLA",
-			"overrides" : [
-				{
-					"profiles" : ["superfine", "extrafine"],
-					"variants" : ["MiniAB - 0.15mm", "MiniAB - 0.20mm"],
-					"settings" : {
-						"raft_airgap" : 0.04
-					}
-				}
-			]
+
+			"materialSettings" : {
+				"cool_fan_speed" : 100
+			}
 		},
 		{
 			"id" : "generic_petg",
 			"name" : "PETG",
-			"profileFilter" : ["extrafine", "fine", "normal", "fast"],
-			"variantFilter" : ["MiniAB - 0.20mm", "MiniAB - 0.25mm", "MiniAB - 0.40mm"],
-			"overrides" : [
-				{
-					"profiles" : ["extrafine", "fine", "normal", "fast"],
-					"variants" : ["MiniAB - 0.20mm", "MiniAB - 0.25mm", "MiniAB - 0.40mm"],
-					"settings" : {
-						"cool_fan_speed" : 100
-					}
-				}
-			]
+			"compatibleProfiles" : ["extrafine", "fine", "normal", "fast", "superfast"],
+			"compatibleVariants" : ["MiniAB - 0.20mm", "MiniAB - 0.25mm", "MiniAB - 0.40mm", "MiniAB - 0.60mm"],
+			
+			"materialSettings" : {
+				"cool_fan_speed" : 100
+			}
 		},
 		{
 			"id" : "generic_abs",
 			"name" : "ABS",
-			"overrides" : []
+			"materialSettings" : {
+				"cool_fan_speed" : 50,
+				"material_flow" : 92.5,
+				"roofing_material_flow" : 92.5
+			}
 		},
 		{
 			"id" : "generic_asa",
 			"name" : "ASA",
-			"profileFilter" : [],
-			"variantFilter" : [],
-			"overrides" : [
-				{
-					"profiles" : ["superfine", "extrafine", "fine"],
-					"variants" : ["MiniAB - 0.15mm"],
-					"settings" : {
-						"cool_fan_speed" : 70,
-						"raft_airgap" : 0.175
-					}
-				},
-				{
-					"profiles" : ["superfine", "extrafine", "fine", "normal", "fast"],
-					"variants" : ["MiniAB - 0.20mm", "MiniAB - 0.25mm", "MiniAB - 0.40mm"],
-					"settings" : {
-						"cool_fan_speed" : 70
-					}
-				}
-			]
+			"materialSettings" : {
+				"cool_fan_speed" : 50,
+				"material_flow" : 92.5,
+				"roofing_material_flow" : 92.5
+			}
 		},
 		{
 			"id" : "generic_tpu",
 			"name" : "TPU",
-			"profileFilter" : ["fine", "normal", "fast"],
-			"variantFilter" : ["MiniAB - 0.40mm"],
-			"overrides" : [
-				{
-					"profiles" : ["fine", "normal", "fast"],
-					"variants" : ["MiniAB - 0.40mm"],
-					"settings" : {
-						"speed_print" : 20
-					}
-				}
-			]
-		},
-		{
-			"id" : "generic_greentec",
-			"name" : "GREENTEC",
-			"profileFilter" : ["fine", "normal", "fast"],
-			"variantFilter" : ["MiniAB - 0.20mm", "MiniAB - 0.25mm", "MiniAB - 0.40mm"]
+			"compatibleProfiles" : ["fine", "normal", "fast"],
+			"compatibleVariants" : ["MiniAB - 0.40mm", "MiniAB - 0.60mm"],
+			"materialSettings" : { 
+				"speed_print" : 20
+			}
 		},
 		{
 			"id" : "generic_nylon",
 			"name" : "NYLON",
-			"profileFilter" : ["fine", "normal", "fast"],
-			"variantFilter" : ["MiniAB - 0.40mm"]
+			"compatibleProfiles" : ["fine", "normal", "fast"],
+			"compatibleVariants" : ["MiniAB - 0.40mm", "MiniAB - 0.60mm"]
 		}
 	]
 }

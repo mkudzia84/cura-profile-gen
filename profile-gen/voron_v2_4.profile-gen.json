@@ -3,10 +3,11 @@
 		{
 			"id" : "voron_v2_4_350",
 			"name": "Voron V2.4 - 350",
-			"inherits": "voron_v2_4_mk_base",
+			"inherits": "voron_by_mk",
 			"metadata": {
 				"visible": true,
-				"platform": "voron2_350_bed.3mf"
+				"platform": "voron2_350_bed.3mf",
+				"quality_definition": "voron_by_mk"
 			},
 
 			"overrides" : {
@@ -19,10 +20,11 @@
 		{
 			"id" : "voron_v2_4_250",
 			"name": "Voron V2.4 - 250",
-			"inherits": "voron_v2_4_mk_base",
+			"inherits": "voron_by_mk",
 			"metadata": {
 				"visible": true,
-				"platform": "voron2_250_bed.3mf"
+				"platform": "voron2_250_bed.3mf",
+				"quality_definition": "voron_by_mk"
 			},
 
 			"overrides" : {
@@ -33,9 +35,27 @@
 			}
 		},
 		{
-			"id" : "voron_v2_4_mk_base",
-			"name" : "Voron V2.4",
+			"id" : "voron_v0_1_120",
+			"name": "Voron V0.1 - 120",
+			"inherits": "voron_by_mk",
+			"metadata": {
+				"visible": true,
+				"platform": "voron0_120_bed.stl",
+				"quality_definition": "voron_by_mk"
+			},
+
+			"overrides" : {
+				"machine_name":								{ "default_value": "Voron V0.1 - 120"},
+				"machine_width": 							{ "default_value": 120 },
+				"machine_height": 							{ "default_value": 120 },
+				"machine_depth": 							{ "default_value": 120 }
+			}
+		},
+		{
+			"id" : "voron_by_mk",
+			"name" : "Voron By MK",
 			"inherits": "fdmprinter",
+			"profiles": true,
 			"metadata" : {
 				"visible": false,
 				
@@ -48,6 +68,10 @@
 				"preferred_quality_type": "fast",
 				"preferred_variant_name" : "SB - 0.40mm",
 				"preferred_material" : "generic_abs",
+
+                "has_machine_quality" : true,
+                "has_materials" : true,
+                "has_variants" : true,
 
 				"exclude_materials": [
 					"ultimaker_abs_black",
@@ -102,7 +126,7 @@
 				]
 			},
 			"overrides" : {		
-				"machine_name":								{ "default_value": "Voron v2.4" },
+				"machine_name":								{ "default_value": "Voron By MK" },
 				"machine_max_feedrate_z": 					{ "default_value": 40 },
 				"machine_max_feedrate_e": 					{ "default_value": 120 },
 				"machine_max_acceleration_x": 				{ "default_value": 4500 },
@@ -114,10 +138,9 @@
 				"machine_max_jerk_e": 						{ "default_value": 60 },
 				"machine_center_is_zero": 					{ "default_value": false },
 				"machine_heated_bed": 						{ "default_value": true },
-				"machine_gcode_flavor":                    	{ "default_value": "RepRap (RepRap)" },
-				"machine_start_gcode":                      { "default_value": "print_start" },
-				"machine_end_gcode":                        { "default_value": "print_end" },
-	
+				"machine_gcode_flavor":                    	{ "default_value": "RepRap (Marlin/Sprinter)" },
+				"machine_start_gcode":                      { "default_value": "print_start BED={material_bed_temperature_layer_0} EXTRUDER={material_print_temperature_layer_0}\nset_material TYPE={material_type}" },
+				"machine_end_gcode":                        { "default_value": "print_end " },
 				"machine_endstop_positive_direction_x":         { "default_value": true },
 				"machine_endstop_positive_direction_y":         { "default_value": true },
 				"machine_endstop_positive_direction_z":         { "default_value": false },
@@ -133,8 +156,8 @@
 				"retraction_retract_speed":               	{ "maximum_value_warning": 130 },
 				"retraction_prime_speed":                  	{ "value": "math.ceil(retraction_speed * 0.4)", "maximum_value_warning": 130 },
 				"retraction_hop_enabled":                  	{ "default_value": true },
-				"retraction_hop":                          	{ "default_value": 0.2 },
-				"retraction_combing":                      	{ "default_value": "'noskin'" },
+				"retraction_hop":                          	{ "default_value": 0.8 },
+				"retraction_combing":                      	{ "default_value": "'off'" },
 				"retraction_combing_max_distance":          { "default_value": 10 },
 	
 				"infill_before_walls" : 					{ "default_value": false },
@@ -202,12 +225,15 @@
 				"zig_zaggify_infill":                       { "default_value": true },
 				"min_infill_area":                          { "default_value": 5.0 },
 				
-				"acceleration_enabled":                     { "default_value": false },
-				"acceleration_print":                       { "default_value": 2200 },
-				"acceleration_wall_0":                      { "default_value": 1800 },
-				"acceleration_layer_0":                     { "default_value": 1800 },
-				"acceleration_travel_layer_0":              { "default_value": 1800 },
-				"acceleration_roofing":                     { "default_value": 1800 },
+				"acceleration_enabled":                     { "value": false },
+				"acceleration_print":                       { "value": 3500 },
+				"acceleration_wall_0":                      { "value": 1000 },
+				"acceleration_wall_x":						{ "value": 2000 },
+				"acceleration_travel":						{ "value": 3500 },
+				"acceleration_support":						{ "value": 3500 },
+				"acceleration_layer_0":                     { "value": 2000 },
+				"acceleration_travel_layer_0":              { "value": 3500 },
+				"acceleration_roofing":                     { "value": 2000 },
 				
 				"support_angle" :                           { "default_value": 40 },
 				"support_interface_enable" : 				{ "default_value": true },
@@ -231,8 +257,6 @@
 			}
 		}
 	],
-
-	"baseQualityDefinition" : "voron_v2_4_mk_base",
 
 	"extruders" : [
 		{
@@ -289,6 +313,8 @@
 				"raft_base_line_spacing" : 0.35,
 				"raft_surface_line_spacing" : 0.250,
 
+				"support_xy_distance_overhang" : 0.25,
+
 				"retraction_count_max" : 10
 			}
 		},
@@ -300,6 +326,8 @@
 				"speed_print" : 120,
 
 				"min_wall_line_width" : 0.15,
+
+				"support_xy_distance_overhang" : 0.20,
 
 				"adhesion_type" : "skirt"
 			}
@@ -321,7 +349,7 @@
 			"toolheadVariantSettings" : {
 				"machine_nozzle_size" : 0.60,
 				"retraction_amount" : 1.60,
-				"speed_print" : 160,
+				"speed_print" : 100,
 
 				"min_wall_line_width" : 0.30,
 
@@ -395,26 +423,37 @@
 
 	"materials" : [
 		{
-			"id" : "generic_pla",
-			"name" : "PLA"
+			"id" : "generic_pla_175",
+			"name" : "PLA",
+			
+			"materialSettings" : {
+				"cool_fan_speed" : 100
+			}
 		},
 		{
-			"id" : "generic_petg",
+			"id" : "generic_petg_175",
 			"name" : "PETG",
 			"compatibleProfiles" : ["extrafine", "fine", "normal", "fast", "superfast"],
 			"compatibleVariants" : ["SB - 0.20mm", "SB - 0.25mm", "SB - 0.40mm", "SB - 0.60mm"],
 			
 			"materialSettings" : {
-				"cool_fan_speed" : 60
+				"cool_fan_speed" : 60,
+				"speed_print" : 80
+
 			}
 		},
 		{
-			"id" : "generic_abs",
+			"id" : "generic_abs_175",
 			"name" : "ABS",
-			"overrides" : []
+		
+			"materialSettings" : {
+				"cool_fan_speed" : 30,
+				"material_flow" : 92.5,
+				"roofing_material_flow" : 92.5
+			}
 		},
 		{
-			"id" : "generic_asa",
+			"id" : "generic_asa_175",
 			"name" : "ASA",
 			"materialSettings" : {
 				"cool_fan_speed" : 30,
@@ -423,7 +462,7 @@
 			}
 		},
 		{
-			"id" : "generic_tpu",
+			"id" : "generic_tpu_175",
 			"name" : "TPU",
 			"compatibleProfiles" : ["fine", "normal", "fast"],
 			"compatibleVariants" : ["SB - 0.40mm", "SB - 0.60mm"],
@@ -432,7 +471,7 @@
 			}
 		},
 		{
-			"id" : "generic_nylon",
+			"id" : "generic_nylon_175",
 			"name" : "NYLON",
 			"compatibleProfiles" : ["fine", "normal", "fast"],
 			"compatibleVariants" : ["SB - 0.40mm", "SB - 0.60mm"]
