@@ -127,6 +127,8 @@ class PrinterVariant:
 
     overrides : Settings
     
+    profiles : Optional[bool] = False
+    
 @dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass
 class Extruder:
@@ -185,8 +187,6 @@ class Configuration:
     variants : List[Variant]
     profiles : List[Profile]
     materials : List[Material]
-
-    base_quality_definition : str
 
     def load(path : str):
         with open(path, mode='r') as fd:
@@ -327,10 +327,6 @@ class Configuration:
             metadata : Dict[str, Any] = copy.copy(printer_variant.metadata)
             metadata.update({
                 'machine_extruder_trains' : {indx : extruder_id for indx, extruder_id in enumerate(extruder_ids)},
-                'quality_definition' : self.base_quality_definition,
-                'has_machine_quality' : True,
-                'has_materials' : True,
-                'has_variants' : True
             })
             
             save_def(
@@ -350,91 +346,94 @@ class Configuration:
         cura_config = CuraSettingsDef()
     
 
-        # Variants
-        for variant in self.variants:
-            variant_path_segment = variant.id.replace(' ', '').replace('-', '_')
-            cfg_file_path = os.path.join(path, 'variants', f"{self.base_quality_definition}_{variant_path_segment}.inst.cfg")
-            log.info(f"Writing variant config for '{self.base_quality_definition}/{variant.id}' under {cfg_file_path}")
-            
-            save_cfg(
-                file_path = cfg_file_path,
-                general = {
-                    'version' : 4,
-                    'name' : variant.id,
-                    'definition' : self.base_quality_definition
-                },
-                metadata = {
-                    'setting_version' : cura_config.version,
-                    'type' : 'variant',
-                    'hardware_type' : 'nozzle'
-                },
-                values = variant.toolhead_variant_settings
-            )
-            
-        # Profiles
-        log.info(f"Writing global quality profiles for printer '{self.base_quality_definition}'")
-        for profile in self.profiles:
-            cfg_file_path = os.path.join(path, 'quality', self.base_quality_definition, f"{self.base_quality_definition}_global_{profile.id}.inst.cfg")
-            log.info(f"Writing global quality profile config for '{self.base_quality_definition}/{profile.id}' under {cfg_file_path}")
-            
-            save_cfg(
-                file_path = cfg_file_path,
-                general = {
-                    'version' : 4,
-                    'name' : profile.name,
-                    'definition' : self.base_quality_definition
-                },
-                metadata = {
-                    'setting_version' : cura_config.version,
-                    'type' : 'quality',
-                    'quality_type' : profile.id,
-                    'global_quality' : True
-                },
-                values = profile.profile_settings
-            )
-            
-        # Material specific profiles
-        log.info(f"Writing material specific quality profiles for printer '{self.base_quality_definition}'")
-        for material in self.materials:
-            log.info(f"Writing material specific quality profiles for material '{material.name}'")
-            
-            # Go over each profile
-            for profile in self.profiles:
-                # Check compatibility
-                if material.is_profile_compatible(profile.id) == False:
-                    log.info(f"Profile '{profile.id} is not compatible with Material '{material.name}', skipping...")
-                    continue
-                
-                # Go over each variant
+        for printer in self.printers:
+            # Variants - need to be done by printer
+            if printer.metadata.get('visible') == True:
                 for variant in self.variants:
-                    # Check compatibility
-                    if profile.is_variant_compatible(variant.id) == False or material.is_variant_compatible(variant.id) == False:
-                        log.info(f"Variant '{variant.id}' is not compatible with '{material.name}/{profile.id}' material/profile combo, skipping...")
-                        continue
+                    variant_path_segment = variant.id.replace(' ', '').replace('-', '_')
+                    cfg_file_path = os.path.join(path, 'variants', f"{printer.id}_{variant_path_segment}.inst.cfg")
+                    log.info(f"Writing variant config for '{printer.id}/{variant.id}' under {cfg_file_path}")
                     
-                    overrides = {}
-                    if material.material_settings != None:
-                        overrides = material.material_settings
-                    
-                    variant_path_segment = variant.id.replace(' ','').replace('-', '_')
-                    cfg_file_path = os.path.join(path, 'quality', self.base_quality_definition, f"{self.base_quality_definition}_{variant_path_segment}_{material.name}_{profile.id}.inst.cfg")
+                    save_cfg(
+                        file_path = cfg_file_path,
+                        general = {
+                            'version' : 4,
+                            'name' : variant.id,
+                            'definition' : printer.id
+                        },
+                        metadata = {
+                            'setting_version' : cura_config.version,
+                            'type' : 'variant',
+                            'hardware_type' : 'nozzle'
+                        },
+                        values = variant.toolhead_variant_settings
+                    )
+                
+            # Profiles
+            if printer.profiles == True:
+                log.info(f"Writing global quality profiles for printer '{printer.id}'")
+                for profile in self.profiles:
+                    cfg_file_path = os.path.join(path, 'quality', printer.id, f"{printer.id}_global_{profile.id}.inst.cfg")
+                    log.info(f"Writing global quality profile config for '{printer.id}/{profile.id}' under {cfg_file_path}")
                     
                     save_cfg(
                         file_path = cfg_file_path,
                         general = {
                             'version' : 4,
                             'name' : profile.name,
-                            'definition' : self.base_quality_definition
+                            'definition' : printer.id
                         },
                         metadata = {
                             'setting_version' : cura_config.version,
                             'type' : 'quality',
                             'quality_type' : profile.id,
-                            'material' : material.id,
-                            'variant' : variant.id
+                            'global_quality' : True
                         },
-                        values = overrides
+                        values = profile.profile_settings
                     )
+                    
+                # Material specific profiles
+                log.info(f"Writing material specific quality profiles for printer '{printer.id}'")
+                for material in self.materials:
+                    log.info(f"Writing material specific quality profiles for material '{material.name}'")
+                    
+                    # Go over each profile
+                    for profile in self.profiles:
+                        # Check compatibility
+                        if material.is_profile_compatible(profile.id) == False:
+                            log.info(f"Profile '{profile.id} is not compatible with Material '{material.name}', skipping...")
+                            continue
+                        
+                        # Go over each variant
+                        for variant in self.variants:
+                            # Check compatibility
+                            if profile.is_variant_compatible(variant.id) == False or material.is_variant_compatible(variant.id) == False:
+                                log.info(f"Variant '{variant.id}' is not compatible with '{material.name}/{profile.id}' material/profile combo, skipping...")
+                                continue
+                            
+                            overrides = {}
+                            if material.material_settings != None:
+                                overrides = material.material_settings
+                            
+                            variant_path_segment = variant.id.replace(' ','').replace('-', '_')
+                            cfg_file_path = os.path.join(path, 'quality', printer.id, f"{printer.id}_{variant_path_segment}_{material.name}_{profile.id}.inst.cfg")
+                            
+                            save_cfg(
+                                file_path = cfg_file_path,
+                                general = {
+                                    'version' : 4,
+                                    'name' : profile.name,
+                                    'definition' : printer.id
+                                },
+                                metadata = {
+                                    'setting_version' : cura_config.version,
+                                    'type' : 'quality',
+                                    'quality_type' : profile.id,
+                                    'material' : material.id,
+                                    'variant' : variant.id
+                                },
+                                values = overrides
+                            )
                         
 
 def main():
